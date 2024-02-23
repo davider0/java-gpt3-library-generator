@@ -24,7 +24,7 @@ app.get('/', async(req, res) => {
 function generatePrompt(animal) {
   const capitalizedAnimal =
     animal[0].toUpperCase() + animal.slice(1).toLowerCase();
-  return `Generate a java library (optionally with its method) that does the input task.
+  return `
 Task: Generate a random number
 Response: java.util.Random, Random.nextInt()
 Task: Reproduce a sound
@@ -38,11 +38,21 @@ app.post('/', async (req,res) => {
 	try{
 		const prompt = req.body.prompt;
 		const response = await openai.createCompletion({
-			model: "gpt-3.5-turbo-0125",
-			prompt: generatePrompt(prompt),
+			model: "gpt-3.5-turbo-1106",
+			messages: [
+				{
+				 role: "system",
+				  content: "Tell a java library (optionally with its method) that does the input task." 
+				},
+				{
+				  role: "user",
+				  content: generatePrompt(prompt),
+				}
+			  ],
 			temperature: 0.5,
 			max_tokens: 150,
 			frequency_penalty: 0.1,
+			response_format: { "type": "text" }
 		});
 		
 		res.status(200).send({
