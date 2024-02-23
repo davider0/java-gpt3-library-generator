@@ -40,7 +40,6 @@ app.post('/', async (req,res) => {
 		const response = await openai.createCompletion({
 			model: "gpt-3.5-turbo-0125",
 			prompt: generatePrompt(prompt),
-			
 			temperature: 0.5,
 			max_tokens: 150,
 			frequency_penalty: 0.1,
@@ -48,11 +47,13 @@ app.post('/', async (req,res) => {
 		
 		res.status(200).send({
 			bot: response.data.choices[0].text
-		})
+		});
+
+		// Esperar antes de hacer la próxima solicitud
+		await delay(1000); // Espera 1 segundo
 	} catch (error){
 		console.log(error);
-		res.status(500).send({ error })
-		
+		res.status(500).send({ error });
 	}
 })
 
