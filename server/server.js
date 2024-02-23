@@ -40,9 +40,8 @@ app.post('/', async (req,res) => {
 		const response = await openai.createCompletion({
 			model: "gpt-3.5-turbo-0126",
 			prompt: generatePrompt(prompt),
-			temperature: 0.5,
-			max_tokens: 150,
-			frequency_penalty: 0.1,
+			temperature: 0.4,
+			max_tokens: 256,
 			
 		});
 		
