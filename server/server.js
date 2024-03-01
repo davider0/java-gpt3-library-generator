@@ -24,29 +24,41 @@ app.get('/', async(req, res) => {
 function generatePrompt(animal) {
   const capitalizedAnimal =
     animal[0].toUpperCase() + animal.slice(1).toLowerCase();
-  return `Generate a java library (optionally with its method) that does the input task.
+  return `Generate a java library (optionally with its method) that does the last input task. Respond in a JSON format like in the following examples:
 Task: Generate a random number
-Response: java.util.Random, Random.nextInt()
+Your response: {"Response": "java.util.Random, Random.nextInt()"}
 Task: Reproduce a sound
-Response: javax.sound.sampled.AudioInputStream, javax.sound.sampled.AudioSystem, javax.sound.sampled.Clip
+Your response: {"Response": "javax.sound.sampled.AudioInputStream, javax.sound.sampled.AudioSystem, javax.sound.sampled.Clip"}
 Task: make me an ice cream
-Response: no existing library can do that (yet)
-Task: ${capitalizedAnimal}`;
+Your response: {"Response": "no existing library can do that (yet)"}
+Task: ${capitalizedAnimal}
+Now, complete your response:`;
 }
 
 app.post('/', async (req,res) => {
 	try{
 		const prompt = req.body.prompt;
-		const response = await openai.createCompletion({
-			model: "gpt-3.5-turbo-0126",
-			prompt: generatePrompt(prompt),
-			temperature: 0.4,
-			max_tokens: 256,
+		const response = await openai.createChatCompletion({
+			model: "gpt-3.5-turbo-1106",
+			response_format: {type: "json_object"},
+			messages:[
+				{
+					role: "system",
+					content:
+						`You are a helpful assistant.`,
+				},
+				{
+					role: "user",
+					content: 
+						`${generatePrompt(prompt)}`,
+				}
+			],
+			
 			
 		});
 		
 		res.status(200).send({
-			bot: response.data.choices[0].text
+			bot: response.data.choices[0].message
 		});
 
 		// Esperar antes de hacer la próxima solicitud
