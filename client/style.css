@@ -144,9 +144,6 @@ textarea {
 
   color: #000000;
   font-size: 18px;
-  -moz-border-radius: 0px;
-  -webkit-border-radius: 3px 3px 0px 0px;
-  border-radius: 3px 3px 0px 0px; 
 
   padding: 10px;
   background: transparent;
