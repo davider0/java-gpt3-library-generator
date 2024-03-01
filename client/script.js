@@ -79,11 +79,12 @@ const handleSubmit = async (e) => {
 			prompt: data.get('prompt')
 		})
 	})
+	
 	clearInterval(loadInterval)
 	messageDiv.innerHTML = ''
 	if(response.ok){
 		const data = await response.json();
-		console.log(data);
+		console.log("response status 200 (⌐■_■)");
 		const parsedData = data.bot.toString().split(": ")[0].replace(/[{}":\\\n]/g,"") + ": " + data.bot.toString().split(": ")[1].replace(/[\\]/g,"").substring(1, data.bot.toString().split(": ")[1].length-2);
 		
 		typeText(messageDiv, parsedData);
