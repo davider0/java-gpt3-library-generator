@@ -58,13 +58,14 @@ app.post('/', async (req,res) => {
 		});
 		
 		res.status(200).send({
-			bot: response.data.choices[0].message
+			bot: response.data.choices[0].message.text
 		});
 
 		// Esperar antes de hacer la próxima solicitud
 		await delay(1000); // Espera 1 segundo
 	} catch (error){
 		console.log(error);
+		alert(error);
 		res.status(500).send({ error });
 	}
 })
