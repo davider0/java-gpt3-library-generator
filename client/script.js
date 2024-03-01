@@ -83,8 +83,9 @@ const handleSubmit = async (e) => {
 	messageDiv.innerHTML = ''
 	if(response.ok){
 		const data = await response.json();
-		const parsedData = eval(data.bot).Response;
 		console.log(data);
+		const parsedData = data.bot;
+		
 		typeText(messageDiv, parsedData);
 		
 	} else {
