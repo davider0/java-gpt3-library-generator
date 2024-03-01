@@ -58,7 +58,7 @@ app.post('/', async (req,res) => {
 		});
 		
 		res.status(200).send({
-			bot: response.data.choices[0].message.text
+			bot: response.data.choices[0].message
 		});
 
 		// Esperar antes de hacer la próxima solicitud
